@@ -24,4 +24,4 @@ COPY . /vpn-service/
 EXPOSE 8000
 
 # Define the command to run your application
-CMD ["poetry", "run", "python", "manage.py", "runserver"]
+CMD ["sh", "start.sh", "poetry"]
