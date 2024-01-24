@@ -1,0 +1,62 @@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+{% block content %}
+  <h3>Personal information</h3>
+  <p>Email: {{ user.email }}</p>
+  <p>Username: {{ user.username }}</p>
+  <a href="{% url 'edit_profile' %}">Edit Profile</a>
+  <br>
+
+  <h3>Statistics</h3>
+ <table>
+    <thead>
+        <tr>
+            <th>Site Name</th>
+            <th>Transition Count</th>
+            <th>Data Volume Sent (byte)</th>
+            <th>Data Volume Received (byte)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stat in page_transition_statistics %}
+            <tr>
+                <td>{{ stat.site_name }}</td>
+                <td>{{ stat.transitions_count }}</td>
+                <td>{{ stat.data_volume_sent }}</td>
+                <td>{{ stat.data_volume_received }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+  <br>
+
+  <h3>Created sites</h3>
+<ul>
+    {% for site in user_created_sites %}
+        <li>
+           {{ site.name }}
+            - {{ site.url }}
+            <a href="{% url 'internal_redirect' user_site_name=site.name routes=site.url %}">Go to the website</a>
+        </li>
+
+    {% endfor %}
+</ul>
+<a href="{% url 'create_site' %}">Create site</a>
+{% endblock %}

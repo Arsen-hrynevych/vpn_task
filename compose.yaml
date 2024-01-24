@@ -1,0 +1,28 @@
+version: '3.8'
+
+networks:
+  network:
+    driver: bridge
+
+services:
+  vpn:
+    build: .
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
+    networks:
+      - network
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${POSTGRES_DC_USER}
+      - POSTGRES_DB=${POSTGRES_DC_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_DC_PASS}
+    ports:
+      - '5432:5432'
+    restart: always
+    networks:
+      - network
